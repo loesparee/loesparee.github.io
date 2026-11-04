@@ -76,17 +76,6 @@
   .about p { margin: 0 0 12px; }
   .about p:last-child { margin: 0; }
 
-  /* ---------- Filter bar ---------- */
-  #filterbar {
-    display: none; align-items: center; gap: 10px; margin-bottom: 14px;
-    padding: 8px 14px; background: var(--accent-soft); border-radius: 10px; font-size: .95rem;
-  }
-  #filterbar.on { display: flex; }
-  #filterbar button {
-    margin-left: auto; border: 0; background: none; color: var(--accent);
-    font: inherit; font-weight: 600; cursor: pointer;
-  }
-
   /* ---------- Projects ---------- */
   .grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); align-items: start; }
   .project { overflow: hidden; }
@@ -128,18 +117,14 @@
 
   /* ---------- Chips (skills / tags) ---------- */
   .chip {
-    font: inherit; font-size: .82rem; cursor: pointer;
+    display: inline-block; font: inherit; font-size: .82rem;
     border: 1px solid var(--line); background: var(--surface); color: var(--text);
     padding: 3px 11px; border-radius: 99px;
   }
-  .chip:hover { border-color: var(--accent); }
-  .chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .chip small { opacity: .65; margin-left: 4px; }
 
   .skills { padding: 20px 24px; display: grid; gap: 18px; }
   .skills h3 { margin: 0 0 8px; font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
   .skills .row { display: flex; flex-wrap: wrap; gap: 8px; }
-  .hint { color: var(--muted); font-size: .88rem; margin: -8px 0 14px; }
 
   /* ---------- Contact ---------- */
   .contact { padding: 8px 24px; }
@@ -163,8 +148,6 @@
     font-size: .82rem; border: 1px solid var(--line); background: var(--accent-soft);
     color: var(--text); padding: 3px 11px; border-radius: 99px;
   }
-  .languages { margin: 10px 0 0; color: var(--muted); font-size: .9rem; }
-
   footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 36px 16px 48px; }
 
   @media (max-width: 560px) {
@@ -203,10 +186,10 @@
         <h2>About me</h2>
         <div class="card about">
           <p>Hi! I'm Loes — a calm, reliable hard worker with a technical mindset, currently doing my MSc in Geo-Information Science at Wageningen University &amp; Research.</p>
-          <p>My interest in GIS took me from a bachelor's in Animal Management into the world of geospatial data. During my master's I've picked up a lot of new skills in the GIS/RS field, and I love puzzling with tools and data to turn them into results people can actually see and understand.</p>
+          <p>My interest in GIS took me from a bachelor's in Animal Management into the world of geospatial data. 
+            During my master's I've picked up a lot of new skills in the GIS/RS field. 
+            I love puzzling with tools and data to turn them into results people can actually see and understand.</p>
           <p>Outside my studies you'll usually find me horseback riding, hiking, watching films, or doing puzzles.</p>
-          <div class="qualities"><span>Reliable</span><span>Calm</span><span>Persistent</span></div>
-          <p class="languages">Languages: Dutch (native), English (C1)</p>
         </div>
       </section>
 
@@ -232,7 +215,6 @@
 
       <section id="projects">
         <h2>Projects</h2>
-        <div id="filterbar"><span id="filtertext"></span><button id="clear" type="button">Show all</button></div>
         <div class="grid" id="grid"></div>
       </section>
     </div>
@@ -240,7 +222,6 @@
     <aside class="sidebar">
       <section id="skills">
         <h2>Skills</h2>
-        <p class="hint">Click a skill to see the projects where I used it.</p>
         <div class="card skills" id="skillbox"></div>
       </section>
     </aside>
@@ -262,45 +243,93 @@
 
 // Skills grouped by category. Names must match the 'skills' in the projects below.
 const SKILLS = {
-  "GIS & Remote sensing":  ["ArcGIS Pro", "Remote sensing", "Geostatistics", "Spatial & temporal analysis"],
-  "Modeling & scripting":  ["Geoscripting", "Modeling", "Effective use of AI tools"],
-  "Other":                 ["Unity (XR)"]
+  "GIS":  ["ArcGIS Pro", "ArcGIS StoryMaps", "Cartography", "Geostatistics", "Spatial & temporal analysis"],
+  "Remote sensing":  ["Remote sensing", "Geostatistics", "Spatial & temporal analysis"],
+  "Geoscripting":  ["Python", "R", "c++", "NetLogo", "Modeling", "Effective use of AI tools"],
+  "Other":                 ["Unity", "XR"],
+  "Languages":             ["Dutch (native)", "English (C1)"],
+  "Personality":                 ["Reliable", "Calm", "Persistent"]
 };
 
 // Each project: images = list of file paths (e.g. "images/map1.png"). Leave [] for a placeholder.
 const PROJECTS = [
   {
-    title: "Interactive flood risk map",
-    meta: "Course project · 2025",
+    title: "Bachelor intership",
+    meta: "lectoraat paardenhouderij en sport  · October 2025",
     images: [],
-    summary: "A web map that shows which neighbourhoods are most exposed to river flooding.",
+    summary: "TO DO",
     details: [
-      "Longer description: what was the question, which data did you use, what method, and what did you find?",
-      "Mention your role, the tools, and what you learned."
+      "TO DO"
     ],
-    skills: ["QGIS", "Python", "JavaScript", "Cartography"],
-    links: [{ label: "View project", url: "#" }]
-  },
-  {
-    title: "Land cover change over 20 years",
-    meta: "Remote sensing · 2025",
-    images: [],
-    summary: "Satellite time series analysis of how land use changed around a growing city.",
-    details: [
-      "Add the full story here. You can add as many paragraphs as you like."
-    ],
-    skills: ["Google Earth Engine", "Remote sensing", "Python", "Data storytelling"],
+    skills: ["ArcGIS StoryMaps", "Cartography"],
     links: []
   },
   {
-    title: "3D campus visualization",
-    meta: "Thesis work · 2026",
+    title: "Bachelor thesis",
+    meta: "lectoraat paardenhouderij en sport  · October 2025",
     images: [],
-    summary: "A 3D model of the campus in Unity for exploring spatial data in an immersive way.",
+    summary: "TO DO",
     details: [
-      "Add the full story here."
+      "TO DO"
     ],
-    skills: ["3D / Unity", "Cartography", "Teamwork"],
+    skills: ["ArcGIS StoryMaps", "Cartography"],
+    links: []
+  },
+  {
+    title: "Master intership",
+    meta: "lectoraat paardenhouderij en sport  · October 2025",
+    images: [],
+    summary: "TO DO",
+    details: [
+      "TO DO"
+    ],
+    skills: ["ArcGIS StoryMaps", "Cartography"],
+    links: []
+  },
+  {
+    title: "Your potato parcel in changing time(s)",
+    meta: "ArcGIS StoryMap · Group project · October 2025",
+    images: [],
+    summary: "An ArcGIS StoryMap exploring how climate change is affecting potato-growing parcels in Tartumaa, Estonia.",
+    details: [
+      "Built with a group as an interactive ArcGIS StoryMap, combining maps, imagery, and text to show how shifting climate conditions are affecting potato cultivation in the Tartumaa region of Estonia."
+    ],
+    skills: ["ArcGIS StoryMaps", "Cartography"],
+    links: []
+  },
+  {
+    title: "Proposed new pipeline routes for industrial wastewater",
+    meta: "Static 2D map · Geotools (GRS20806) · December 2025",
+    images: [],
+    summary: "A suitability map for routing new wastewater pipelines in the Maas en Waal area.",
+    details: [
+      "For the course Geotools (GRS20806), we mapped the most suitable pipeline route from three wastewater sources to a water treatment basin. We weighed factors like houses, roads, and existing ditches, each with its own associated cost, to find the optimal route.",
+      "With Joseph Amara (Group 4B)."
+    ],
+    skills: ["ArcGIS Pro", "Cartography", "Geostatistics"],
+    links: []
+  },
+  {
+    title: "Amoosing behaviours: comparing R packages for seasonal movement analysis",
+    meta: "Scientific poster · Spatial & Temporal Analysis (GRS33306) · March 2026",
+    images: [],
+    summary: "A scientific poster comparing R packages for analysing seasonal movement patterns in moose GPS data.",
+    details: [
+      "For the course Spatial and Temporal Analysis (GRS33306), we compared four R packages — adehabitat, move, amt, and momentuHMM — for analysing seasonal home ranges and movement behaviour in moose tracking data, evaluating each on user-friendliness, code efficiency, and analytical scope.",
+      "With Liz van Genderen, Bouke Hefting, and Ella Sikkens."
+    ],
+    skills: ["R", "Spatial & temporal analysis", "Geostatistics"],
+    links: []
+  },
+  {
+    title: "Simulating dike-breach flooding with a cellular automaton",
+    meta: "Scientific poster · Spatial Modelling & Statistics (GRS30306) · March 2026",
+    images: [],
+    summary: "A NetLogo cellular automaton that simulates which areas would flood after a dike breach.",
+    details: [
+      "For the course Spatial Modelling and Statistics (GRS30306), I built a cellular automaton (CA) model in NetLogo that projects which areas would be flooded after a dike breach, taking into account the height of the breach and the flow speed of the water."
+    ],
+    skills: ["NetLogo", "Modeling"],
     links: []
   }
 ];
@@ -334,24 +363,10 @@ function el(tag, props = {}, ...kids) {
   return n;
 }
 
-let activeSkill = null;
 const grid = document.getElementById("grid");
 
-function skillCount(s) { return PROJECTS.filter(p => p.skills.includes(s)).length; }
-
-function setSkill(s) {
-  activeSkill = activeSkill === s ? null : s;
-  render();
-  if (activeSkill && window.matchMedia("(max-width: 700px)").matches) {
-    document.getElementById("projects").scrollIntoView();
-  }
-}
-
-function chip(s, withCount) {
-  const b = el("button", { type: "button", className: "chip" + (s === activeSkill ? " active" : "") }, s);
-  if (withCount) b.append(el("small", {}, String(skillCount(s))));
-  b.onclick = () => setSkill(s);
-  return b;
+function chip(s) {
+  return el("span", { className: "chip" }, s);
 }
 
 function gallery(p) {
@@ -389,7 +404,7 @@ function projectCard(p) {
       p.meta ? el("div", { className: "meta" }, p.meta) : "",
       el("p", { className: "summary" }, p.summary),
       el("div", { className: "full" }, p.details.map(t => el("p", {}, t)), links),
-      el("div", { className: "tags" }, p.skills.map(s => chip(s, false))),
+      el("div", { className: "tags" }, p.skills.map(s => chip(s))),
       p.details.length ? more : ""
     )
   );
@@ -397,23 +412,14 @@ function projectCard(p) {
 }
 
 function render() {
-  const shown = activeSkill ? PROJECTS.filter(p => p.skills.includes(activeSkill)) : PROJECTS;
-  grid.replaceChildren(...shown.map(projectCard));
-
-  const bar = document.getElementById("filterbar");
-  bar.classList.toggle("on", !!activeSkill);
-  if (activeSkill) {
-    document.getElementById("filtertext").textContent =
-      `Showing ${shown.length} project${shown.length === 1 ? "" : "s"} using “${activeSkill}”`;
-  }
+  grid.replaceChildren(...PROJECTS.map(projectCard));
 
   document.getElementById("skillbox").replaceChildren(
     ...Object.entries(SKILLS).map(([cat, list]) =>
-      el("div", {}, el("h3", {}, cat), el("div", { className: "row" }, list.map(s => chip(s, true)))))
+      el("div", {}, el("h3", {}, cat), el("div", { className: "row" }, list.map(s => chip(s)))))
   );
 }
 
-document.getElementById("clear").onclick = () => { activeSkill = null; render(); };
 document.getElementById("contactlist").append(...CONTACT.map(c =>
   el("li", {}, el("span", { className: "label" }, c.label),
     el("a", { href: c.url, target: c.url.startsWith("http") ? "_blank" : "_self", rel: "noopener", textContent: c.text }))));
