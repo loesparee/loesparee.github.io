@@ -1,1 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loes Paree – Visualization Portfolio</title>
+<meta name="description" content="Portfolio of Loes Paree, MSc student Geo-Information Science.">
+<style>
+  :root {
+    --bg: #f6f7f5;
+    --surface: #ffffff;
+    --text: #1d2420;
+    --muted: #5d6a62;
+    --line: #dfe4e0;
+    --accent: #1f7a5c;
+    --accent-soft: #e0f0ea;
+    --banner: #16352b;
+    --banner-text: #f2f7f4;
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #131715; --surface: #1c221f; --text: #e8eeea; --muted: #9aa8a0;
+      --line: #2c3530; --accent: #5cc4a0; --accent-soft: #23352e;
+      --banner: #0d2119; --banner-text: #f2f7f4;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  a { color: var(--accent); }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
 
+  /* ---------- Header banner ---------- */
+  header.banner { background: var(--banner); color: var(--banner-text); padding: 40px 0 32px; }
+  .banner .wrap { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+  .avatar {
+    width: 132px; height: 132px; border-radius: 50%; object-fit: cover; flex: none;
+    border: 4px solid rgba(255,255,255,.25); background: #2b4d40;
+  }
+  .banner h1 { margin: 0; font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.15; }
+  .banner p { margin: 6px 0 0; font-size: 1.1rem; opacity: .85; }
+  nav { margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+  nav a {
+    color: var(--banner-text); text-decoration: none; font-size: .9rem;
+    padding: 5px 14px; border: 1px solid rgba(255,255,255,.3); border-radius: 99px;
+  }
+  nav a:hover { background: rgba(255,255,255,.12); }
+
+  section { padding: 36px 0 8px; scroll-margin-top: 8px; }
+  h2 { margin: 0 0 16px; font-size: 1.5rem; }
+  .card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+
+  /* ---------- About ---------- */
+  .about { padding: 22px 24px; max-width: 75ch; }
+  .about p { margin: 0 0 12px; }
+  .about p:last-child { margin: 0; }
+
+  /* ---------- Filter bar ---------- */
+  #filterbar {
+    display: none; align-items: center; gap: 10px; margin-bottom: 14px;
+    padding: 8px 14px; background: var(--accent-soft); border-radius: 10px; font-size: .95rem;
+  }
+  #filterbar.on { display: flex; }
+  #filterbar button {
+    margin-left: auto; border: 0; background: none; color: var(--accent);
+    font: inherit; font-weight: 600; cursor: pointer;
+  }
+
+  /* ---------- Projects ---------- */
+  .grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); align-items: start; }
+  .project { overflow: hidden; }
+  .gallery { position: relative; }
+  .slides {
+    display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+    aspect-ratio: 16 / 10; background: var(--accent-soft);
+  }
+  .slides::-webkit-scrollbar { display: none; }
+  .slides img { flex: none; width: 100%; height: 100%; object-fit: cover; scroll-snap-align: start; }
+  .gallery .arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 32px; height: 32px; border-radius: 50%; border: 0; cursor: pointer;
+    background: rgba(0,0,0,.5); color: #fff; font-size: 18px; line-height: 1;
+  }
+  .gallery .prev { left: 8px; } .gallery .next { right: 8px; }
+  .gallery .count {
+    position: absolute; right: 8px; bottom: 8px; font-size: .75rem; color: #fff;
+    background: rgba(0,0,0,.55); padding: 1px 8px; border-radius: 99px;
+  }
+  .body { padding: 14px 16px 16px; }
+  .body h3 { margin: 0 0 4px; font-size: 1.1rem; line-height: 1.3; }
+  .meta { color: var(--muted); font-size: .82rem; margin-bottom: 6px; }
+  .summary { margin: 0; font-size: .95rem; }
+  .full { display: none; margin-top: 10px; font-size: .95rem; }
+  .full p { margin: 0 0 10px; }
+  .project.open .full { display: block; }
+  .project:not(.open) .summary {
+    display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .more {
+    margin-top: 10px; border: 0; background: none; padding: 0; cursor: pointer;
+    color: var(--accent); font: inherit; font-weight: 600; font-size: .9rem;
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .project:not(.open) .tags { display: none; }
+  .links { margin-top: 10px; font-size: .9rem; }
+  .links a { margin-right: 14px; }
+
+  /* ---------- Chips (skills / tags) ---------- */
+  .chip {
+    font: inherit; font-size: .82rem; cursor: pointer;
+    border: 1px solid var(--line); background: var(--surface); color: var(--text);
+    padding: 3px 11px; border-radius: 99px;
+  }
+  .chip:hover { border-color: var(--accent); }
+  .chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .chip small { opacity: .65; margin-left: 4px; }
+
+  .skills { padding: 20px 24px; display: grid; gap: 18px; }
+  .skills h3 { margin: 0 0 8px; font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .skills .row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .hint { color: var(--muted); font-size: .88rem; margin: -8px 0 14px; }
+
+  /* ---------- Contact ---------- */
+  .contact { padding: 8px 24px; }
+  .contact ul { list-style: none; margin: 0; padding: 0; }
+  .contact li { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .contact li:last-child { border: 0; }
+  .contact .label { width: 110px; color: var(--muted); flex: none; }
+  .contact a { word-break: break-all; }
+
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 36px 16px 48px; }
+
+  @media (max-width: 560px) {
+    .banner .wrap { flex-direction: column; text-align: center; }
+    nav { justify-content: center; }
+    .contact .label { width: 80px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="banner">
+  <div class="wrap">
+    <!-- Put your photo next to this file as photo.jpg -->
+    <img class="avatar" src="photo.jpg" alt="Portrait of Loes Paree"
+         onerror="this.removeAttribute('onerror');this.src=placeholder('LP',200,200)">
+    <div>
+      <h1>Loes Paree</h1>
+      <p>MSc student Geo-Information Science</p>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="about">
+    <h2>About me</h2>
+    <div class="card about">
+      <p>Hi! I'm Loes, a master's student in Geo-Information Science. I love turning complex spatial data into visualizations that people can actually understand and explore.</p>
+      <p>Replace this text with your own story: what drives you, what you are studying, the kind of work you are looking for, and what you enjoy outside of your studies.</p>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    <div id="filterbar"><span id="filtertext"></span><button id="clear" type="button">Show all</button></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="skills">
+    <h2>Skills</h2>
+    <p class="hint">Click a skill to see the projects where I used it.</p>
+    <div class="card skills" id="skillbox"></div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <div class="card contact"><ul id="contactlist"></ul></div>
+  </section>
+
+</main>
+
+<footer>© <span id="year"></span> Loes Paree</footer>
+
+<script>
+/* =====================================================================
+   EDIT HERE: your projects, skills and contact details
+   ===================================================================== */
+
+// Skills grouped by category. Names must match the 'skills' in the projects below.
+const SKILLS = {
+  "GIS & Remote sensing": ["QGIS", "ArcGIS Pro", "Google Earth Engine", "Remote sensing"],
+  "Programming":          ["Python", "R", "JavaScript", "SQL"],
+  "Visualization":        ["D3.js", "Cartography", "Data storytelling", "Figma"],
+  "Other":                ["3D / Unity", "Project management", "Teamwork"]
+};
+
+// Each project: images = list of file paths (e.g. "images/map1.png"). Leave [] for a placeholder.
+const PROJECTS = [
+  {
+    title: "Interactive flood risk map",
+    meta: "Course project · 2025",
+    images: [],
+    summary: "A web map that shows which neighbourhoods are most exposed to river flooding.",
+    details: [
+      "Longer description: what was the question, which data did you use, what method, and what did you find?",
+      "Mention your role, the tools, and what you learned."
+    ],
+    skills: ["QGIS", "Python", "JavaScript", "Cartography"],
+    links: [{ label: "View project", url: "#" }]
+  },
+  {
+    title: "Land cover change over 20 years",
+    meta: "Remote sensing · 2025",
+    images: [],
+    summary: "Satellite time series analysis of how land use changed around a growing city.",
+    details: [
+      "Add the full story here. You can add as many paragraphs as you like."
+    ],
+    skills: ["Google Earth Engine", "Remote sensing", "Python", "Data storytelling"],
+    links: []
+  },
+  {
+    title: "3D campus visualization",
+    meta: "Thesis work · 2026",
+    images: [],
+    summary: "A 3D model of the campus in Unity for exploring spatial data in an immersive way.",
+    details: [
+      "Add the full story here."
+    ],
+    skills: ["3D / Unity", "Cartography", "Teamwork"],
+    links: []
+  }
+];
+
+// Contact details. Remove lines you don't want to show.
+const CONTACT = [
+  { label: "Email",    text: "your.email@example.com",              url: "mailto:your.email@example.com" },
+  { label: "Phone",    text: "+31 6 12345678",                      url: "tel:+31612345678" },
+  { label: "LinkedIn", text: "linkedin.com/in/your-profile",        url: "https://www.linkedin.com/in/your-profile" },
+  { label: "CV",       text: "Download my CV (PDF)",                url: "cv.pdf" },
+  { label: "GitHub",   text: "github.com/loesparee",                url: "https://github.com/loesparee" }
+];
+
+/* =====================================================================
+   Code below – no need to edit
+   ===================================================================== */
+
+function placeholder(label, w = 640, h = 400) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2f8f6f"/><stop offset="1" stop-color="#16352b"/></linearGradient></defs>
+    <rect width="100%" height="100%" fill="url(#g)"/>
+    <text x="50%" y="50%" fill="#fff" fill-opacity=".85" font-family="sans-serif" font-size="${Math.round(h / 8)}"
+      text-anchor="middle" dominant-baseline="middle">${label.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</text></svg>`;
+  return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+}
+
+function el(tag, props = {}, ...kids) {
+  const n = Object.assign(document.createElement(tag), props);
+  kids.flat().forEach(k => n.append(k));
+  return n;
+}
+
+let activeSkill = null;
+const grid = document.getElementById("grid");
+
+function skillCount(s) { return PROJECTS.filter(p => p.skills.includes(s)).length; }
+
+function setSkill(s) {
+  activeSkill = activeSkill === s ? null : s;
+  render();
+  if (activeSkill && window.matchMedia("(max-width: 700px)").matches) {
+    document.getElementById("projects").scrollIntoView();
+  }
+}
+
+function chip(s, withCount) {
+  const b = el("button", { type: "button", className: "chip" + (s === activeSkill ? " active" : "") }, s);
+  if (withCount) b.append(el("small", {}, String(skillCount(s))));
+  b.onclick = () => setSkill(s);
+  return b;
+}
+
+function gallery(p) {
+  const imgs = p.images.length ? p.images : [placeholder(p.title)];
+  const slides = el("div", { className: "slides" },
+    imgs.map((src, i) => el("img", { src, alt: `${p.title} – image ${i + 1}`, loading: "lazy" })));
+  const g = el("div", { className: "gallery" }, slides);
+  if (imgs.length > 1) {
+    const count = el("span", { className: "count" }, `1 / ${imgs.length}`);
+    const go = d => slides.scrollBy({ left: d * slides.clientWidth, behavior: "smooth" });
+    const prev = el("button", { className: "arrow prev", type: "button", ariaLabel: "Previous image", textContent: "‹", onclick: () => go(-1) });
+    const next = el("button", { className: "arrow next", type: "button", ariaLabel: "Next image", textContent: "›", onclick: () => go(1) });
+    slides.addEventListener("scroll", () => {
+      count.textContent = `${Math.round(slides.scrollLeft / slides.clientWidth) + 1} / ${imgs.length}`;
+    }, { passive: true });
+    g.append(prev, next, count);
+  }
+  return g;
+}
+
+function projectCard(p) {
+  const card = el("article", { className: "card project" });
+  const more = el("button", { type: "button", className: "more", textContent: "Read more ▾" });
+  more.onclick = () => {
+    const open = card.classList.toggle("open");
+    more.textContent = open ? "Show less ▴" : "Read more ▾";
+  };
+  const links = p.links.length
+    ? el("div", { className: "links" }, p.links.map(l => el("a", { href: l.url, target: "_blank", rel: "noopener", textContent: l.label })))
+    : "";
+  card.append(
+    gallery(p),
+    el("div", { className: "body" },
+      el("h3", {}, p.title),
+      p.meta ? el("div", { className: "meta" }, p.meta) : "",
+      el("p", { className: "summary" }, p.summary),
+      el("div", { className: "full" }, p.details.map(t => el("p", {}, t)), links),
+      el("div", { className: "tags" }, p.skills.map(s => chip(s, false))),
+      p.details.length ? more : ""
+    )
+  );
+  return card;
+}
+
+function render() {
+  const shown = activeSkill ? PROJECTS.filter(p => p.skills.includes(activeSkill)) : PROJECTS;
+  grid.replaceChildren(...shown.map(projectCard));
+
+  const bar = document.getElementById("filterbar");
+  bar.classList.toggle("on", !!activeSkill);
+  if (activeSkill) {
+    document.getElementById("filtertext").textContent =
+      `Showing ${shown.length} project${shown.length === 1 ? "" : "s"} using “${activeSkill}”`;
+  }
+
+  document.getElementById("skillbox").replaceChildren(
+    ...Object.entries(SKILLS).map(([cat, list]) =>
+      el("div", {}, el("h3", {}, cat), el("div", { className: "row" }, list.map(s => chip(s, true)))))
+  );
+}
+
+document.getElementById("clear").onclick = () => { activeSkill = null; render(); };
+document.getElementById("contactlist").append(...CONTACT.map(c =>
+  el("li", {}, el("span", { className: "label" }, c.label),
+    el("a", { href: c.url, target: c.url.startsWith("http") ? "_blank" : "_self", rel: "noopener", textContent: c.text }))));
+document.getElementById("year").textContent = new Date().getFullYear();
+render();
+</script>
+</body>
+</html>
