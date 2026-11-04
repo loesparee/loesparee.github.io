@@ -7,22 +7,22 @@
 <meta name="description" content="Portfolio of Loes Paree, MSc student Geo-Information Science.">
 <style>
   :root {
-    --bg: #f6f7f5;
+    --bg: #f7f7f1;
     --surface: #ffffff;
-    --text: #1d2420;
-    --muted: #5d6a62;
-    --line: #dfe4e0;
-    --accent: #1f7a5c;
-    --accent-soft: #e0f0ea;
-    --banner: #16352b;
-    --banner-text: #f2f7f4;
+    --text: #272a1c;
+    --muted: #6c6f57;
+    --line: #e3e4d6;
+    --accent: #767a4a;
+    --accent-soft: #eef0e2;
+    --banner: #33351c;
+    --banner-text: #f7f7ef;
     --radius: 14px;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #131715; --surface: #1c221f; --text: #e8eeea; --muted: #9aa8a0;
-      --line: #2c3530; --accent: #5cc4a0; --accent-soft: #23352e;
-      --banner: #0d2119; --banner-text: #f2f7f4;
+      --bg: #17180f; --surface: #202215; --text: #ecece2; --muted: #a7ab8f;
+      --line: #32341f; --accent: #a7ac78; --accent-soft: #2a2c1a;
+      --banner: #121307; --banner-text: #f7f7ef;
     }
   }
   * { box-sizing: border-box; }
@@ -39,7 +39,7 @@
   .banner .wrap { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
   .avatar {
     width: 132px; height: 132px; border-radius: 50%; object-fit: cover; flex: none;
-    border: 4px solid rgba(255,255,255,.25); background: #2b4d40;
+    border: 4px solid rgba(255,255,255,.25); background: #4a4d2c;
   }
   .banner h1 { margin: 0; font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.15; }
   .banner p { margin: 6px 0 0; font-size: 1.1rem; opacity: .85; }
@@ -57,8 +57,22 @@
     border-radius: var(--radius);
   }
 
+  /* ---------- Two-column layout: main content + sticky skills sidebar ---------- */
+  .layout { display: flex; gap: 32px; align-items: flex-start; }
+  .main-col { flex: 1 1 auto; min-width: 0; }
+  .sidebar {
+    flex: none; width: 280px; position: sticky; top: 20px;
+    max-height: calc(100vh - 40px); overflow-y: auto;
+  }
+  .sidebar section { padding-top: 0; }
+
+  @media (max-width: 860px) {
+    .layout { flex-direction: column; }
+    .sidebar { position: static; width: auto; max-height: none; }
+  }
+
   /* ---------- About ---------- */
-  .about { padding: 22px 24px; max-width: 75ch; }
+  .about { padding: 22px 24px; }
   .about p { margin: 0 0 12px; }
   .about p:last-child { margin: 0; }
 
@@ -135,6 +149,22 @@
   .contact .label { width: 110px; color: var(--muted); flex: none; }
   .contact a { word-break: break-all; }
 
+  /* ---------- Education ---------- */
+  .edu { padding: 8px 24px; }
+  .edu-item { padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .edu-item:last-child { border: 0; }
+  .edu-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px; }
+  .edu-head h3 { margin: 0; font-size: 1.05rem; }
+  .edu-item .meta { color: var(--muted); font-size: .82rem; white-space: nowrap; }
+  .edu-item p { margin: 6px 0 0; font-size: .95rem; }
+
+  .qualities { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 0; }
+  .qualities span {
+    font-size: .82rem; border: 1px solid var(--line); background: var(--accent-soft);
+    color: var(--text); padding: 3px 11px; border-radius: 99px;
+  }
+  .languages { margin: 10px 0 0; color: var(--muted); font-size: .9rem; }
+
   footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 36px 16px 48px; }
 
   @media (max-width: 560px) {
@@ -156,6 +186,7 @@
       <p>MSc student Geo-Information Science</p>
       <nav>
         <a href="#about">About</a>
+        <a href="#education">Education</a>
         <a href="#projects">Projects</a>
         <a href="#skills">Skills</a>
         <a href="#contact">Contact</a>
@@ -166,25 +197,54 @@
 
 <main class="wrap">
 
-  <section id="about">
-    <h2>About me</h2>
-    <div class="card about">
-      <p>Hi! I'm Loes, a master's student in Geo-Information Science. I love turning complex spatial data into visualizations that people can actually understand and explore.</p>
-      <p>Replace this text with your own story: what drives you, what you are studying, the kind of work you are looking for, and what you enjoy outside of your studies.</p>
+  <div class="layout">
+    <div class="main-col">
+      <section id="about">
+        <h2>About me</h2>
+        <div class="card about">
+          <p>Hi! I'm Loes — a calm, reliable hard worker with a technical mindset, currently doing my MSc in Geo-Information Science at Wageningen University &amp; Research.</p>
+          <p>My interest in GIS took me from a bachelor's in Animal Management into the world of geospatial data. During my master's I've picked up a lot of new skills in the GIS/RS field, and I love puzzling with tools and data to turn them into results people can actually see and understand.</p>
+          <p>Outside my studies you'll usually find me horseback riding, hiking, watching films, or doing puzzles.</p>
+          <div class="qualities"><span>Reliable</span><span>Calm</span><span>Persistent</span></div>
+          <p class="languages">Languages: Dutch (native), English (C1)</p>
+        </div>
+      </section>
+
+      <section id="education">
+        <h2>Education</h2>
+        <div class="card edu">
+          <div class="edu-item">
+            <div class="edu-head">
+              <h3>MSc Geo-Information Science</h3>
+              <span class="meta">Wageningen University &amp; Research · Sept 2025 – present</span>
+            </div>
+            <p>Courses in GIS/remote sensing, finished my first year with a 7.5 average. Thesis: comparing score, time, and eye movements between 2D and 3D visualization tests.</p>
+          </div>
+          <div class="edu-item">
+            <div class="edu-head">
+              <h3>HBO Bachelor Animal Management</h3>
+              <span class="meta">Van Hall Larenstein (HVHL), Leeuwarden · Sept 2020 – Feb 2025</span>
+            </div>
+            <p>Specialized in Animal &amp; Business with a minor in Horse and an extra minor in GIS. Internship and thesis research on horse farms: their location relative to nature areas and zoning, and the soil and geomorphology of their sites.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects">
+        <h2>Projects</h2>
+        <div id="filterbar"><span id="filtertext"></span><button id="clear" type="button">Show all</button></div>
+        <div class="grid" id="grid"></div>
+      </section>
     </div>
-  </section>
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <div id="filterbar"><span id="filtertext"></span><button id="clear" type="button">Show all</button></div>
-    <div class="grid" id="grid"></div>
-  </section>
-
-  <section id="skills">
-    <h2>Skills</h2>
-    <p class="hint">Click a skill to see the projects where I used it.</p>
-    <div class="card skills" id="skillbox"></div>
-  </section>
+    <aside class="sidebar">
+      <section id="skills">
+        <h2>Skills</h2>
+        <p class="hint">Click a skill to see the projects where I used it.</p>
+        <div class="card skills" id="skillbox"></div>
+      </section>
+    </aside>
+  </div>
 
   <section id="contact">
     <h2>Contact</h2>
@@ -202,10 +262,9 @@
 
 // Skills grouped by category. Names must match the 'skills' in the projects below.
 const SKILLS = {
-  "GIS & Remote sensing": ["QGIS", "ArcGIS Pro", "Google Earth Engine", "Remote sensing"],
-  "Programming":          ["Python", "R", "JavaScript", "SQL"],
-  "Visualization":        ["D3.js", "Cartography", "Data storytelling", "Figma"],
-  "Other":                ["3D / Unity", "Project management", "Teamwork"]
+  "GIS & Remote sensing":  ["ArcGIS Pro", "Remote sensing", "Geostatistics", "Spatial & temporal analysis"],
+  "Modeling & scripting":  ["Geoscripting", "Modeling", "Effective use of AI tools"],
+  "Other":                 ["Unity (XR)"]
 };
 
 // Each project: images = list of file paths (e.g. "images/map1.png"). Leave [] for a placeholder.
@@ -248,11 +307,11 @@ const PROJECTS = [
 
 // Contact details. Remove lines you don't want to show.
 const CONTACT = [
-  { label: "Email",    text: "your.email@example.com",              url: "mailto:your.email@example.com" },
-  { label: "Phone",    text: "+31 6 12345678",                      url: "tel:+31612345678" },
-  { label: "LinkedIn", text: "linkedin.com/in/your-profile",        url: "https://www.linkedin.com/in/your-profile" },
-  { label: "CV",       text: "Download my CV (PDF)",                url: "cv.pdf" },
-  { label: "GitHub",   text: "github.com/loesparee",                url: "https://github.com/loesparee" }
+  { label: "Email",     text: "loes.paree@wur.nl",         url: "mailto:loes.paree@wur.nl" },
+  { label: "Email",     text: "loes.paree@gmail.com",      url: "mailto:loes.paree@gmail.com" },
+  { label: "LinkedIn",  text: "linkedin.com/in/loesparee", url: "https://www.linkedin.com/in/loesparee" },
+  { label: "CV",        text: "Download my CV (PDF)",      url: "cv.pdf" },
+  { label: "GitHub",    text: "github.com/loesparee",      url: "https://github.com/loesparee" }
 ];
 
 /* =====================================================================
@@ -262,7 +321,7 @@ const CONTACT = [
 function placeholder(label, w = 640, h = 400) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
     <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#2f8f6f"/><stop offset="1" stop-color="#16352b"/></linearGradient></defs>
+      <stop offset="0" stop-color="#9a9f63"/><stop offset="1" stop-color="#33351c"/></linearGradient></defs>
     <rect width="100%" height="100%" fill="url(#g)"/>
     <text x="50%" y="50%" fill="#fff" fill-opacity=".85" font-family="sans-serif" font-size="${Math.round(h / 8)}"
       text-anchor="middle" dominant-baseline="middle">${label.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</text></svg>`;
